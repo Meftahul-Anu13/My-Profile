@@ -1,0 +1,68 @@
+:root {
+  --bg-color: #FFFDF7;        /* Warm cream canvas background */
+  --card-bg: #FFFFFF;         /* Pure white for cards */
+  --text-dark: #2B2525;       /* Deep warm brown-black for soft contrast */
+  --text-muted: #5D5454;      /* Soft brown for descriptions */
+  --accent-pink: #FFD2D2;     /* Cute pastel pink */
+  --accent-pink-dark: #FFA4A4;
+  --accent-mint: #D6F1F1;     /* Cute pastel mint */
+  --accent-mint-dark: #A4E5E5;
+  --accent-lavender: #EAE3F7; /* Cute pastel lavender */
+  --accent-lavender-dark: #C6B1EA;
+  --accent-yellow: #FFF3C4;   /* Cute pastel yellow */
+  --accent-yellow-dark: #FFE27C;
+  --border-thick: 3px solid var(--text-dark);
+  --shadow-cartoon: 6px 6px 0px var(--text-dark);
+  --shadow-cartoon-sm: 4px 4px 0px var(--text-dark);
+  --shadow-cartoon-hover: 2px 2px 0px var(--text-dark);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-dark);
+  background-color: var(--bg-color);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  background-image: radial-gradient(rgba(43, 37, 37, 0.08) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Wiggle animation keyframes */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-1.5deg); }
+  75% { transform: rotate(1.5deg); }
+}
+
+@keyframes bounceSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
