@@ -875,7 +875,7 @@ function App() {
             {cgpaStep === 'riddle' ? (
               <>
                 <h3>Unlocking University CGPA 🐍🧠</h3>
-                <p>Solve this quick Python riddle to reveal the CGPA instantly:</p>
+                <p>Solve this quick Python riddle to initiate decryption:</p>
                 
                 <div className="code-riddle-box">
                   <code>len(set([1, 1, 2, 3, 5]))</code>
@@ -908,10 +908,10 @@ function App() {
                   I'm not a coder / Skip with Email 📧
                 </button>
               </>
-            ) : (
+            ) : cgpaStep === 'form' ? (
               <>
                 <h3>Unlock Grades via Email 📬</h3>
-                <p>Enter your details to reveal my CGPA grades.</p>
+                <p>Please enter your details to verify your request and reveal the CGPA.</p>
                 {cgpaFormError && (
                   <div className="contact-error" style={{ fontSize: '14px', padding: '10px', marginBottom: '15px' }}>
                     ❌ {cgpaFormError}
@@ -941,9 +941,25 @@ function App() {
                     />
                   </div>
                   <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={unlockingCgpa}>
-                    {unlockingCgpa ? 'Unlocking... 🔑' : 'Reveal CGPA Score 🎓'}
+                    {unlockingCgpa ? 'Verifying... 🔑' : 'Reveal CGPA Score 🎓'}
                   </button>
                 </form>
+              </>
+            ) : (
+              <>
+                <h3>Grades Decrypted! 🎓✨</h3>
+                <p style={{ fontSize: '15px', lineHeight: '1.5', margin: '15px 0' }}>
+                  Your verification token has been registered. The decrypted CGPA value is:
+                </p>
+                <div className="math-riddle-result-box" style={{ background: 'var(--accent-mint)', border: 'var(--border-thick)', padding: '15px', borderRadius: 'var(--radius-sm)', fontWeight: 'bold', fontSize: '18px', textAlign: 'center', margin: '15px 0', boxShadow: 'var(--shadow-cartoon-sm)' }}>
+                  Euler's Constant (e ≈ 2.71) + 1.00 📉
+                </div>
+                <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontStyle: 'italic', marginTop: '10px' }}>
+                  Hint: Check your browser developer console (Right Click -> Inspect -> Console) to view the raw logs! 💻🔍
+                </p>
+                <button onClick={() => setShowCgpaModal(false)} className="btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: '20px' }}>
+                  Awesome! 👍
+                </button>
               </>
             )}
           </div>
