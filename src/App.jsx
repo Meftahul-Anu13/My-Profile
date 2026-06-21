@@ -250,7 +250,7 @@ function App() {
             Hey, I'm <span>Meftahul Jannati Anonna</span>!
           </h1>
           <p className="hero-desc">
-            I am a competitive programmer, research collaborator, and full-stack developer who loves designing classy, cartoonish, and functional digital products. I specialize in building intelligent applications using Spring Boot, Next.js, and Machine Learning.
+            I am a Computer Science & Engineering undergraduate at the Islamic University of Technology (IUT), competitive programmer, and research collaborator. I specialize in building full-stack intelligent applications using Spring Boot, Next.js, and Machine Learning, and working on state-of-the-art AI systems.
           </p>
           <div className="hero-buttons">
             <a href="#contact" className="btn-primary">Write Me 💌</a>
@@ -260,6 +260,12 @@ function App() {
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
               </svg>
               GitHub
+            </a>
+            <a href="https://leetcode.com/u/anu0_0yass/" target="_blank" rel="noopener noreferrer" className="btn-accent" style={{ gap: '6px', backgroundColor: 'var(--accent-yellow)' }}>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style={{ verticalAlign: 'middle' }}>
+                <path d="M13.483 0a1.374 1.374 0 0 0-.961.414L3.89 9.043a1.375 1.375 0 0 0-.414.966c0 .363.144.71.402.968l8.632 8.618a1.378 1.378 0 0 0 1.933 0l8.632-8.618a1.378 1.378 0 0 0 0-1.936L14.444.414A1.372 1.372 0 0 0 13.483 0zm-.056 2.8l7.232 7.221-7.232 7.221-7.232-7.221 7.232-7.221zm1.228 3.518a.687.687 0 1 0 0 1.375.687.687 0 0 0 0-1.375zm-3.076 2.057a.688.688 0 0 0-.488 1.176l2.062 2.058a.688.688 0 0 0 .973-.974l-2.062-2.058a.684.684 0 0 0-.485-.202zm-.688 3.43a.688.688 0 0 0-.485 1.173l2.062 2.058a.688.688 0 1 0 .973-.973l-2.062-2.058a.685 6.685 0 0 0-.488-.2z"/>
+              </svg>
+              LeetCode
             </a>
           </div>
 
@@ -308,7 +314,7 @@ function App() {
             <div className="exp-left">
               <div className="exp-role">Research Collaborator</div>
               <div className="exp-company">
-                🔬 Elite Research Lab (<span>elitelab.ai</span>)
+                🔬 <a href="https://elitelab.ai/" target="_blank" rel="noopener noreferrer" className="exp-company-link">Elite Research Lab (elitelab.ai)</a>
               </div>
               <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>
                 Collaborating on state-of-the-art AI research publications, conducting machine learning model tests, and investigating advanced algorithmic solutions.
@@ -325,7 +331,7 @@ function App() {
             <div className="exp-left">
               <div className="exp-role">AI Full Stack Intern</div>
               <div className="exp-company">
-                🤖 Kaizenext AI Technology (<span>Kaizenext</span>)
+                🤖 <a href="https://www.linkedin.com/company/kaizenext/" target="_blank" rel="noopener noreferrer" className="exp-company-link">Kaizenext AI Technology (Kaizenext)</a>
               </div>
               <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>
                 Assisted in designing AI pipelines, structured frontend layout bindings in React/Next.js, and implemented backend API handlers.

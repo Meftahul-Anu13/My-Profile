@@ -966,4 +966,19 @@
   transform: scale(1.1);
 }
 
+.exp-company-link {
+  color: var(--text-dark);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+  transition: all 0.2s;
+}
+
+.exp-company-link:hover {
+  color: var(--accent-lavender-dark);
+  text-decoration-style: solid;
+}
+
+
 
