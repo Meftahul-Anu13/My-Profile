@@ -32,38 +32,42 @@ function App() {
       return { valid: false, message: `Did you mean ${email.split('@')[0]}@${commonTypos[domain]}?` }
     }
 
-    const QUICKEMAIL_API_KEY = import.meta.env.VITE_QUICKEMAILVERIFICATION_API_KEY
+    const ABSTRACT_EMAIL_API_KEY = import.meta.env.VITE_ABSTRACT_EMAIL_API_KEY
 
-    // If QuickEmailVerification key is present, perform SMTP/Mailbox level checking
-    if (QUICKEMAIL_API_KEY && QUICKEMAIL_API_KEY !== "YOUR_QUICKEMAILVERIFICATION_API_KEY_HERE") {
+    // If AbstractAPI key is present, perform SMTP/Mailbox level checking
+    if (ABSTRACT_EMAIL_API_KEY && ABSTRACT_EMAIL_API_KEY !== "YOUR_ABSTRACT_EMAIL_API_KEY_HERE" && ABSTRACT_EMAIL_API_KEY.trim() !== "") {
+      console.log("🔍 [Email Check] Using AbstractAPI SMTP/mailbox check for:", email)
       try {
         const controller = new AbortController()
-        const timeoutId = setTimeout(() => controller.abort(), 5000)
+        const timeoutId = setTimeout(() => controller.abort(), 6000)
 
-        const response = await fetch(`https://api.quickemailverification.com/v1/verify?email=${encodeURIComponent(email)}&apikey=${QUICKEMAIL_API_KEY}`, {
+        const response = await fetch(`https://emailreputation.abstractapi.com/v1/?api_key=${ABSTRACT_EMAIL_API_KEY.trim()}&email=${encodeURIComponent(email)}`, {
           signal: controller.signal
         })
         clearTimeout(timeoutId)
 
         if (response.ok) {
           const data = await response.json()
-          if (data.result === 'invalid') {
-            if (data.reason === 'invalid_mailbox') {
-              return { valid: false, message: "This email mailbox does not exist. Please enter a real existing email." }
-            }
-            if (data.reason === 'disposable') {
-              return { valid: false, message: "Temporary/disposable email addresses are not allowed." }
-            }
-            if (data.reason === 'invalid_domain') {
-              return { valid: false, message: "The domain of this email address does not exist." }
-            }
-            return { valid: false, message: "Please enter a valid, existing email address." }
+          console.log("📝 [Email Check] AbstractAPI response:", data)
+
+          // Support both Email Validation (flat) and Email Reputation (nested) response schemas
+          const deliverabilityStatus = (data.email_deliverability?.status || data.deliverability || "").toLowerCase()
+          const isSmtpValid = data.email_deliverability ? data.email_deliverability.is_smtp_valid : (data.is_smtp_valid?.value)
+          const isDisposable = data.email_quality ? data.email_quality.is_disposable : (data.is_disposable_email?.value)
+
+          if (deliverabilityStatus === 'undeliverable' || isSmtpValid === false) {
+            return { valid: false, message: "This email address does not exist. Please enter a real existing email." }
+          }
+          if (isDisposable === true) {
+            return { valid: false, message: "Temporary/disposable email addresses are not allowed." }
           }
           return { valid: true }
         }
       } catch (e) {
-        console.warn("QuickEmailVerification failed, falling back to basic checks:", e)
+        console.warn("⚠️ [Email Check] AbstractAPI failed, falling back to basic checks:", e)
       }
+    } else {
+      console.log("⚠️ [Email Check] VITE_ABSTRACT_EMAIL_API_KEY is not set. Falling back to Disify domain-level checks.")
     }
 
     // 2. Query Disify API for MX / DNS and disposable status checking (Fallback)

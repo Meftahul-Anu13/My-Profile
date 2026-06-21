@@ -39,7 +39,7 @@ jobs:
         run: npm run build
         env:
           VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
-          VITE_QUICKEMAILVERIFICATION_API_KEY: ${{ secrets.VITE_QUICKEMAILVERIFICATION_API_KEY }}
+          VITE_ABSTRACT_EMAIL_API_KEY: ${{ secrets.VITE_ABSTRACT_EMAIL_API_KEY }}
 
 
       - name: Setup Pages
