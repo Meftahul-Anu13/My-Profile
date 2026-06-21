@@ -250,7 +250,7 @@ function App() {
             Hey, I'm <span>Meftahul Jannati Anonna</span>!
           </h1>
           <p className="hero-desc">
-            I am a Computer Science & Engineering undergraduate at the Islamic University of Technology (IUT), competitive programmer, and research collaborator. I specialize in building full-stack intelligent applications using Spring Boot, Next.js, and Machine Learning, and working on state-of-the-art AI systems.
+            I am a Computer Science & Engineering undergraduate at the Islamic University of Technology (IUT), competitive programmer, AI developer, and Research Collaborator focused on building intelligent systems that blend cutting-edge AI with practical software engineering. My interests span Computer Vision, Machine Learning (including LLMs/VLMs), and full-stack development. Currently, I am working on NLP and Agentic AI, with a constant drive to design real-world solutions that bridge the gap between academic research and practical impact.
           </p>
           <div className="hero-buttons">
             <a href="#contact" className="btn-primary">Write Me 💌</a>
