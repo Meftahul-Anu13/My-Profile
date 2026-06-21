@@ -32,9 +32,49 @@ function App() {
       return { valid: false, message: `Did you mean ${email.split('@')[0]}@${commonTypos[domain]}?` }
     }
 
+    const QUICKEMAIL_API_KEY = import.meta.env.VITE_QUICKEMAILVERIFICATION_API_KEY
     const ABSTRACT_EMAIL_API_KEY = import.meta.env.VITE_ABSTRACT_EMAIL_API_KEY
 
-    // If AbstractAPI key is present, perform SMTP/Mailbox level checking
+    // 1. Try QuickEmailVerification API first via CORS Proxy (if key is set)
+    if (QUICKEMAIL_API_KEY && QUICKEMAIL_API_KEY !== "YOUR_QUICKEMAILVERIFICATION_API_KEY_HERE" && QUICKEMAIL_API_KEY.trim() !== "") {
+      console.log("🔍 [Email Check] Using QuickEmailVerification (via CORS proxy) for:", email)
+      try {
+        const controller = new AbortController()
+        const timeoutId = setTimeout(() => controller.abort(), 6000)
+
+        const targetUrl = `https://api.quickemailverification.com/v1/verify?email=${encodeURIComponent(email)}&apikey=${QUICKEMAIL_API_KEY.trim()}`
+        const proxyUrl = `https://corsproxy.io/?${targetUrl}`
+
+        const response = await fetch(proxyUrl, {
+          signal: controller.signal
+        })
+        clearTimeout(timeoutId)
+
+        if (response.ok) {
+          const data = await response.json()
+          console.log("📝 [Email Check] QuickEmailVerification response:", data)
+          if (data.result === 'invalid') {
+            if (data.reason === 'invalid_mailbox' || data.reason === 'rejected_email') {
+              return { valid: false, message: "This email address does not exist. Please enter a real existing email." }
+            }
+            if (data.reason === 'disposable' || data.disposable === 'true') {
+              return { valid: false, message: "Temporary/disposable email addresses are not allowed." }
+            }
+            if (data.reason === 'invalid_domain') {
+              return { valid: false, message: "The domain of this email address does not exist." }
+            }
+            return { valid: false, message: "Please enter a valid, existing email address." }
+          }
+          return { valid: true }
+        }
+      } catch (e) {
+        console.warn("⚠️ [Email Check] QuickEmailVerification via CORS proxy failed, trying AbstractAPI:", e)
+      }
+    } else {
+      console.log("⚠️ [Email Check] VITE_QUICKEMAILVERIFICATION_API_KEY is not set. Trying AbstractAPI.")
+    }
+
+    // 2. Try AbstractAPI (Fallback 1)
     if (ABSTRACT_EMAIL_API_KEY && ABSTRACT_EMAIL_API_KEY !== "YOUR_ABSTRACT_EMAIL_API_KEY_HERE" && ABSTRACT_EMAIL_API_KEY.trim() !== "") {
       console.log("🔍 [Email Check] Using AbstractAPI SMTP/mailbox check for:", email)
       try {
