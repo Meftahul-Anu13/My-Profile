@@ -144,9 +144,8 @@ function App() {
     e.preventDefault()
     const ans = riddleAnswer.trim()
     if (ans === '4') {
-      setCgpaUnlocked(true)
-      setShowCgpaModal(false)
-      sendSilentNotification('Riddle Solved 🧠', 'A visitor successfully solved your Python code riddle (len(set([1, 1, 2, 3, 5])) = 4) and unlocked your CGPA score!')
+      setRiddleError(null)
+      setCgpaStep('form')
     } else {
       setRiddleError('Wrong answer! Think like a Python coder. 😉')
     }
@@ -636,7 +635,7 @@ function App() {
             <div className="edu-meta">
               <span>📅 2022 – Present</span>
               <span className="edu-score">
-                CGPA: {cgpaUnlocked ? "3.71 / 4.00" : (
+                CGPA: {cgpaUnlocked ? "Euler's Constant (e ≈ 2.71) + 1.00 📉" : (
                   <button onClick={handleRevealCgpaClick} className="edu-unlock-btn" title="Unlock CV & Grades">
                     🔒 Reveal CGPA
                   </button>
