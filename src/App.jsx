@@ -720,7 +720,7 @@ function App() {
             <div className="edu-meta">
               <span>📅 2022 – Present</span>
               <span className="edu-score">
-                CGPA: {cgpaUnlocked ? "Euler's Constant (e ≈ 2.71) + 1.00 📉" : (
+                CGPA: {cgpaUnlocked ? "e + 1.00 📉" : (
                   <button onClick={handleRevealCgpaClick} className="edu-unlock-btn" title="Unlock CV & Grades">
                     🔒 Reveal CGPA
                   </button>
