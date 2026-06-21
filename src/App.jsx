@@ -14,17 +14,11 @@ function App() {
     setSubmitted(true)
     setSubmitError(null)
 
-    // REPLACE THIS KEY with your free Web3Forms access key
-    // Get a free key instantly at: https://web3forms.com/
-    const WEB3FORMS_ACCESS_KEY = "YOUR_WEB3FORMS_ACCESS_KEY_HERE"
+    const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
 
-    if (WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY_HERE") {
-      // Demo fallback behavior if the user hasn't set their key yet
-      setTimeout(() => {
-        setSubmitted(false)
-        setSubmitSuccess(true)
-        setFormData({ name: '', email: '', message: '' })
-      }, 1500)
+    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY_HERE") {
+      setSubmitError("Access key is missing. Please add VITE_WEB3FORMS_ACCESS_KEY to your .env file.")
+      setSubmitted(false)
       return
     }
 
@@ -199,7 +193,7 @@ function App() {
           <span className="ticker-item">🧠 TensorFlow / OpenCV</span>
           <span className="ticker-item">📱 Flutter / Firebase</span>
           <span className="ticker-item">🎨 Canva & Figma</span>
-          
+
           {/* Duplicated for seamless loop */}
           <span className="ticker-item">☕ Java / Spring Boot</span>
           <span className="ticker-item">🐍 Python / Flask</span>
@@ -563,12 +557,11 @@ function App() {
             </form>
           )}
         </div>
-
       </section>
 
       {/* Footer */}
       <footer className="footer">
-        <p>Made with 💖, React, and Canva | © {new Date().getFullYear()} Meftahul Jannati Anonna</p>
+        <p>© {new Date().getFullYear()} Meftahul Jannati Anonna</p>
       </footer>
     </div>
   )
