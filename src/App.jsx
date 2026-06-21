@@ -55,6 +55,91 @@ function App() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
+  // CV and CGPA Unlock System
+  const [showUnlockModal, setShowUnlockModal] = useState(false)
+  const [unlockData, setUnlockData] = useState({ name: '', email: '' })
+  const [unlocked, setUnlocked] = useState(false)
+  const [unlocking, setUnlocking] = useState(false)
+  const [unlockError, setUnlockError] = useState(null)
+
+  const triggerCvDownload = () => {
+    const link = document.createElement('a')
+    link.href = `${import.meta.env.BASE_URL}cv.pdf`
+    link.download = 'Cv_Meftahul_Jannati_Anonna.pdf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const handleCvDownloadClick = (e) => {
+    e.preventDefault()
+    if (unlocked) {
+      triggerCvDownload()
+    } else {
+      setShowUnlockModal(true)
+    }
+  }
+
+  const handleRevealCgpaClick = () => {
+    if (!unlocked) {
+      setShowUnlockModal(true)
+    }
+  }
+
+  const handleUnlockChange = (e) => {
+    setUnlockData({ ...unlockData, [e.target.name]: e.target.value })
+  }
+
+  const handleUnlockSubmit = async (e) => {
+    e.preventDefault()
+    setUnlocking(true)
+    setUnlockError(null)
+
+    const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
+
+    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY_HERE") {
+      // Local fallback for demo
+      setTimeout(() => {
+        setUnlocking(false)
+        setUnlocked(true)
+        setShowUnlockModal(false)
+        triggerCvDownload()
+      }, 1000)
+      return
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `🔑 CV & CGPA Unlocked by ${unlockData.name}`,
+          name: unlockData.name,
+          email: unlockData.email,
+          message: `${unlockData.name} (${unlockData.email}) has unlocked your CV download and CGPA grades on your portfolio.`,
+        })
+      })
+
+      const result = await response.json()
+      if (result.success) {
+        setUnlocked(true)
+        setShowUnlockModal(false)
+        triggerCvDownload()
+      } else {
+        setUnlockError(result.message || "Something went wrong. Please try again.")
+      }
+    } catch (err) {
+      setUnlockError("Network error. Please check your connection and try again.")
+    } finally {
+      setUnlocking(false)
+    }
+  }
+
+
 
   // Resume Projects
   const projects = [
@@ -169,8 +254,13 @@ function App() {
           </p>
           <div className="hero-buttons">
             <a href="#contact" className="btn-primary">Write Me 💌</a>
-            <a href={`${import.meta.env.BASE_URL}cv.pdf`} download="Cv_Meftahul_Jannati_Anonna.pdf" className="btn-secondary">Download CV 📄</a>
-            <a href="https://github.com/Meftahul-Anu13" target="_blank" rel="noopener noreferrer" className="btn-accent">GitHub 🐙</a>
+            <button onClick={handleCvDownloadClick} className="btn-secondary">Download CV 📄</button>
+            <a href="https://github.com/Meftahul-Anu13" target="_blank" rel="noopener noreferrer" className="btn-accent" style={{ gap: '6px' }}>
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ verticalAlign: 'middle' }}>
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+              GitHub
+            </a>
           </div>
 
         </div>
@@ -428,7 +518,13 @@ function App() {
             <span className="edu-school">Islamic University of Technology (IUT)</span>
             <div className="edu-meta">
               <span>📅 2022 – Present</span>
-              <span className="edu-score">CGPA: 3.71 / 4.00</span>
+              <span className="edu-score">
+                CGPA: {unlocked ? "3.71 / 4.00" : (
+                  <button onClick={handleRevealCgpaClick} className="edu-unlock-btn" title="Unlock CV & Grades">
+                    🔒 Reveal CGPA
+                  </button>
+                )}
+              </span>
             </div>
           </div>
 
@@ -487,8 +583,28 @@ function App() {
           </div>
 
           <div className="contact-social-row">
-            <a href="https://github.com/Meftahul-Anu13" target="_blank" rel="noopener noreferrer" className="contact-social-btn" title="GitHub">🐙</a>
-            <a href="https://linkedin.com/in/meftahuljannati" target="_blank" rel="noopener noreferrer" className="contact-social-btn" title="LinkedIn">💼</a>
+            <a href="https://github.com/Meftahul-Anu13" target="_blank" rel="noopener noreferrer" className="contact-social-btn" title="GitHub">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </a>
+            <a href="https://linkedin.com/in/meftahuljannati" target="_blank" rel="noopener noreferrer" className="contact-social-btn" title="LinkedIn">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/meftahuljannatianonna" target="_blank" rel="noopener noreferrer" className="contact-social-btn" title="Facebook">
+              <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+            <a href="https://leetcode.com/u/anu0_0yass/" target="_blank" rel="noopener noreferrer" className="contact-social-btn" title="LeetCode">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M13.483 0a1.374 1.374 0 0 0-.961.414L3.89 9.043a1.375 1.375 0 0 0-.414.966c0 .363.144.71.402.968l8.632 8.618a1.378 1.378 0 0 0 1.933 0l8.632-8.618a1.378 1.378 0 0 0 0-1.936L14.444.414A1.372 1.372 0 0 0 13.483 0zm-.056 2.8l7.232 7.221-7.232 7.221-7.232-7.221 7.232-7.221zm1.228 3.518a.687.687 0 1 0 0 1.375.687.687 0 0 0 0-1.375zm-3.076 2.057a.688.688 0 0 0-.488 1.176l2.062 2.058a.688.688 0 0 0 .973-.974l-2.062-2.058a.684.684 0 0 0-.485-.202zm-.688 3.43a.688.688 0 0 0-.485 1.173l2.062 2.058a.688.688 0 1 0 .973-.973l-2.062-2.058a.685 6.685 0 0 0-.488-.2z"/>
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -563,6 +679,51 @@ function App() {
       <footer className="footer">
         <p>© {new Date().getFullYear()} Meftahul Jannati Anonna</p>
       </footer>
+
+      {/* Unlock Grades & CV Modal */}
+      {showUnlockModal && (
+        <div className="unlock-modal-overlay">
+          <div className="unlock-modal">
+            <button onClick={() => setShowUnlockModal(false)} className="unlock-modal-close">×</button>
+            <h3>Unlock Resume & Grades 🔐✨</h3>
+            <p>Please enter your Name and Email to download the full CV and view my CGPA.</p>
+            
+            {unlockError && (
+              <div className="contact-error" style={{ fontSize: '14px', padding: '10px', marginBottom: '15px' }}>
+                ❌ {unlockError}
+              </div>
+            )}
+            
+            <form onSubmit={handleUnlockSubmit} className="unlock-modal-form">
+              <div className="form-group">
+                <input
+                  type="text"
+                  name="name"
+                  value={unlockData.name}
+                  onChange={handleUnlockChange}
+                  placeholder="Your Name"
+                  required
+                  className="form-control"
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="email"
+                  name="email"
+                  value={unlockData.email}
+                  onChange={handleUnlockChange}
+                  placeholder="Your Email"
+                  required
+                  className="form-control"
+                />
+              </div>
+              <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={unlocking}>
+                {unlocking ? 'Unlocking... 🔑' : 'Unlock & Download CV 🚀'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

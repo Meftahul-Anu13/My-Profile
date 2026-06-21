@@ -869,3 +869,101 @@
   margin-top: 80px;
 }
 
+/* Unlock Grades Modal */
+.unlock-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.unlock-modal {
+  background-color: var(--card-bg);
+  border: var(--border-thick);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-cartoon);
+  padding: 35px;
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  position: relative;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.unlock-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.unlock-modal h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: var(--text-dark);
+}
+
+.unlock-modal p {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.unlock-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edu-unlock-btn {
+  background-color: var(--accent-lavender);
+  border: 2px solid var(--text-dark);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--text-dark);
+  transition: all 0.1s;
+  margin-left: 8px;
+  font-family: inherit;
+}
+
+.edu-unlock-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--text-dark);
+  background-color: var(--accent-lavender-dark);
+}
+
+.edu-unlock-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--text-dark);
+}
+
+.contact-social-btn svg {
+  transition: transform 0.2s;
+  display: block;
+}
+
+.contact-social-btn:hover svg {
+  transform: scale(1.1);
+}
+
+
