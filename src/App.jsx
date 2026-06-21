@@ -115,31 +115,6 @@ function App() {
     }
   }
 
-  const sendSilentNotification = async (subject, message) => {
-    const WEB3FORMS_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
-    if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "YOUR_WEB3FORMS_ACCESS_KEY_HERE") {
-      return
-    }
-    try {
-      await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `🔑 ${subject}`,
-          name: "Portfolio Visitor",
-          email: "noreply@anu.dev",
-          message: message
-        })
-      })
-    } catch (e) {
-      console.warn("Silent notification failed:", e)
-    }
-  }
-
   const handleRiddleSubmit = (e) => {
     e.preventDefault()
     const ans = riddleAnswer.trim()
@@ -373,7 +348,7 @@ function App() {
             </a>
             <a href="https://leetcode.com/u/anu0_0yass/" target="_blank" rel="noopener noreferrer" className="btn-accent" style={{ gap: '6px', backgroundColor: 'var(--accent-yellow)' }}>
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style={{ verticalAlign: 'middle' }}>
-                <path d="M13.483 0a1.374 1.374 0 0 0-.961.414L3.89 9.043a1.375 1.375 0 0 0-.414.966c0 .363.144.71.402.968l8.632 8.618a1.378 1.378 0 0 0 1.933 0l8.632-8.618a1.378 1.378 0 0 0 0-1.936L14.444.414A1.372 1.372 0 0 0 13.483 0zm-.056 2.8l7.232 7.221-7.232 7.221-7.232-7.221 7.232-7.221zm1.228 3.518a.687.687 0 1 0 0 1.375.687.687 0 0 0 0-1.375zm-3.076 2.057a.688.688 0 0 0-.488 1.176l2.062 2.058a.688.688 0 0 0 .973-.974l-2.062-2.058a.684.684 0 0 0-.485-.202zm-.688 3.43a.688.688 0 0 0-.485 1.173l2.062 2.058a.688.688 0 1 0 .973-.973l-2.062-2.058a.685 6.685 0 0 0-.488-.2z"/>
+                <path d="M13.483 0a1.374 1.374 0 0 0-.961.414L3.89 9.043a1.375 1.375 0 0 0-.414.966c0 .363.144.71.402.968l8.632 8.618a1.378 1.378 0 0 0 1.933 0l8.632-8.618a1.378 1.378 0 0 0 0-1.936L14.444.414A1.372 1.372 0 0 0 13.483 0zm-.056 2.8l7.232 7.221-7.232 7.221-7.232-7.221 7.232-7.221zm1.228 3.518a.687.687 0 1 0 0 1.375.687.687 0 0 0 0-1.375zm-3.076 2.057a.688.688 0 0 0-.488 1.176l2.062 2.058a.688.688 0 0 0 .973-.974l-2.062-2.058a.684.684 0 0 0-.485-.202zm-.688 3.43a.688.688 0 0 0-.485 1.173l2.062 2.058a.688.688 0 1 0 .973-.973l-2.062-2.058a.685 6.685 0 0 0-.488-.2z" />
               </svg>
               LeetCode
             </a>
@@ -635,7 +610,7 @@ function App() {
             <div className="edu-meta">
               <span>📅 2022 – Present</span>
               <span className="edu-score">
-                CGPA: {cgpaUnlocked ? "Euler's Constant (e ≈ 2.71) + 1.00 📉" : (
+                CGPA: {cgpaUnlocked ? "e + 1.01 📉" : (
                   <button onClick={handleRevealCgpaClick} className="edu-unlock-btn" title="Unlock CV & Grades">
                     🔒 Reveal CGPA
                   </button>
@@ -718,7 +693,7 @@ function App() {
             </a>
             <a href="https://leetcode.com/u/anu0_0yass/" target="_blank" rel="noopener noreferrer" className="contact-social-btn" title="LeetCode">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                <path d="M13.483 0a1.374 1.374 0 0 0-.961.414L3.89 9.043a1.375 1.375 0 0 0-.414.966c0 .363.144.71.402.968l8.632 8.618a1.378 1.378 0 0 0 1.933 0l8.632-8.618a1.378 1.378 0 0 0 0-1.936L14.444.414A1.372 1.372 0 0 0 13.483 0zm-.056 2.8l7.232 7.221-7.232 7.221-7.232-7.221 7.232-7.221zm1.228 3.518a.687.687 0 1 0 0 1.375.687.687 0 0 0 0-1.375zm-3.076 2.057a.688.688 0 0 0-.488 1.176l2.062 2.058a.688.688 0 0 0 .973-.974l-2.062-2.058a.684.684 0 0 0-.485-.202zm-.688 3.43a.688.688 0 0 0-.485 1.173l2.062 2.058a.688.688 0 1 0 .973-.973l-2.062-2.058a.685 6.685 0 0 0-.488-.2z"/>
+                <path d="M13.483 0a1.374 1.374 0 0 0-.961.414L3.89 9.043a1.375 1.375 0 0 0-.414.966c0 .363.144.71.402.968l8.632 8.618a1.378 1.378 0 0 0 1.933 0l8.632-8.618a1.378 1.378 0 0 0 0-1.936L14.444.414A1.372 1.372 0 0 0 13.483 0zm-.056 2.8l7.232 7.221-7.232 7.221-7.232-7.221 7.232-7.221zm1.228 3.518a.687.687 0 1 0 0 1.375.687.687 0 0 0 0-1.375zm-3.076 2.057a.688.688 0 0 0-.488 1.176l2.062 2.058a.688.688 0 0 0 .973-.974l-2.062-2.058a.684.684 0 0 0-.485-.202zm-.688 3.43a.688.688 0 0 0-.485 1.173l2.062 2.058a.688.688 0 1 0 .973-.973l-2.062-2.058a.685 6.685 0 0 0-.488-.2z" />
               </svg>
             </a>
           </div>
@@ -801,7 +776,7 @@ function App() {
         <div className="unlock-modal-overlay">
           <div className="unlock-modal">
             <button onClick={() => setShowCvModal(false)} className="unlock-modal-close">×</button>
-            
+
             {cvStep === 'captcha' ? (
               <>
                 <h3>Verify You're Friendly! 🧸✨</h3>
@@ -870,12 +845,12 @@ function App() {
         <div className="unlock-modal-overlay">
           <div className="unlock-modal">
             <button onClick={() => setShowCgpaModal(false)} className="unlock-modal-close">×</button>
-            
+
             {cgpaStep === 'riddle' ? (
               <>
                 <h3>Unlocking University CGPA 🐍🧠</h3>
                 <p>Solve this quick Python riddle to initiate decryption:</p>
-                
+
                 <div className="code-riddle-box">
                   <code>len(set([1, 1, 2, 3, 5]))</code>
                 </div>
